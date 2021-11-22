@@ -55,7 +55,7 @@ func TestListInsertAt(t *testing.T) {
 	for i := 0; i < nAdd; i++ {
 		l.AddToTail(i)
 	}
-	insertIdx := 2
+	insertIdx := 3
 	insertVal := 25
 	l.InsertAt(insertVal, insertIdx)
 	l.Print()
@@ -74,5 +74,50 @@ func TestListInsertAt(t *testing.T) {
 				t.Errorf("got %v, want %v", test.got, test.want)
 			}
 		})
+	}
+}
+
+func TestListRemoveAtHead(t *testing.T) {
+	l := New()
+
+	nAdd := 5
+	for i := 0; i < nAdd; i++ {
+		l.AddToTail(i)
+	}
+	l.RemoveAtHead()
+	l.Print()
+
+	if l.Len != nAdd-1 {
+		t.Errorf("bad length")
+	}
+}
+
+func TestListRemoveAtTail(t *testing.T) {
+	l := New()
+
+	nAdd := 5
+	for i := 0; i < nAdd; i++ {
+		l.AddToTail(i)
+	}
+	l.RemoveAtTail()
+	l.Print()
+
+	if l.Len != nAdd-1 {
+		t.Errorf("bad length")
+	}
+}
+
+func TestListRemovedAt(t *testing.T) {
+	l := New()
+
+	nAdd := 5
+	for i := 0; i < nAdd; i++ {
+		l.AddToTail(i)
+	}
+	l.RemoveAt(2)
+	l.Print()
+
+	if l.Len != nAdd-1 {
+		t.Errorf("bad length")
 	}
 }

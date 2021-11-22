@@ -97,6 +97,56 @@ func (l *List) InsertAt(v interface{}, index int) (*List, error) {
 	return l, nil
 }
 
+// RemoveAtHead removes the head node
+func (l *List) RemoveAtHead() *List {
+	if l.Head == nil {
+		return l
+	}
+
+	l.Head = l.Head.Next
+	l.Head.Prev = nil
+	l.Len--
+	return l
+}
+
+// RemoveAtTail removes the tail node
+func (l *List) RemoveAtTail() *List {
+	if l.Head == nil {
+		return l
+	}
+
+	l.Tail = l.Tail.Prev
+	l.Tail.Next = nil
+	l.Len--
+	return l
+}
+
+// RemoveAt removes a node at a given index
+func (l *List) RemoveAt(index int) (*List, error) {
+	if index >= l.Len || index < 0 {
+		err := errors.New("invalid index")
+		return l, err
+	}
+
+	if index == 0 {
+		return l.RemoveAtHead(), nil
+	}
+
+	if index == l.Len-1 {
+		return l.RemoveAtTail(), nil
+	}
+
+	curr := l.Head
+	for i := 0; i < index; i++ {
+		curr = curr.Next
+	}
+	curr.Prev.Next = curr.Next
+	curr.Next.Prev = curr.Prev
+
+	l.Len--
+	return l, nil
+}
+
 // Print prints nodes in the list
 func (l *List) Print() {
 	curr := l.Head
