@@ -147,6 +147,28 @@ func (l *List) RemoveAt(index int) (*List, error) {
 	return l, nil
 }
 
+// Reverse reverses the list
+func (l *List) Reverse() *List {
+	if l.Len == 0 {
+		return l
+	}
+
+	// Move the head to the tail and traverse backwards
+	l.Head = l.Tail
+	curr := l.Head
+	for curr.Prev != nil {
+		curr.Next = curr.Prev
+		curr.Prev = curr.Next
+		curr = curr.Prev
+	}
+	// Adjust the last node
+	curr.Prev = curr.Next
+	curr.Next = nil
+	l.Tail = curr
+
+	return l
+}
+
 // Print prints nodes in the list
 func (l *List) Print() {
 	curr := l.Head

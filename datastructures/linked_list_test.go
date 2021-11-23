@@ -121,3 +121,30 @@ func TestListRemovedAt(t *testing.T) {
 		t.Errorf("bad length")
 	}
 }
+
+func TestListReverse(t *testing.T) {
+	l := New()
+
+	nAdd := 5
+	for i := 0; i < nAdd; i++ {
+		l.AddToTail(i)
+	}
+	l.Reverse()
+	l.Print()
+
+	tests := map[string]struct {
+		got, want int
+	}{
+		"length":     {got: nAdd, want: nAdd},
+		"fist value": {got: l.ValueAt(0).(int), want: 4},
+		"last value": {got: l.ValueAt(nAdd - 1).(int), want: 0},
+	}
+
+	for title, test := range tests {
+		t.Run(title, func(t *testing.T) {
+			if test.got != test.want {
+				t.Errorf("got %v, want %v", test.got, test.want)
+			}
+		})
+	}
+}
