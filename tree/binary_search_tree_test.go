@@ -13,13 +13,9 @@ import (
 //        2   4 6   10
 func setupTree() *BST {
 	bst := &BST{}
-	bst.Insert(5)
-	bst.Insert(3)
-	bst.Insert(2)
-	bst.Insert(4)
-	bst.Insert(7)
-	bst.Insert(10)
-	bst.Insert(6)
+	for _, v := range []int{5, 3, 2, 4, 7, 10, 6} {
+		bst.Insert(v)
+	}
 	return bst
 }
 

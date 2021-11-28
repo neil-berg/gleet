@@ -21,32 +21,34 @@ type BST struct {
 func (t *BST) Insert(v int) {
 	node := &Node{Value: v}
 
+	var recurInsert func(currentNode, newNode *Node)
+
+	recurInsert = func(currentNode, newNode *Node) {
+		if currentNode.Value == newNode.Value {
+			fmt.Println(newNode.Value, "already exists")
+			return
+		}
+
+		if newNode.Value < currentNode.Value {
+			if currentNode.Left == nil {
+				currentNode.Left = newNode
+			} else {
+				recurInsert(currentNode.Left, newNode)
+			}
+		} else {
+			if currentNode.Right == nil {
+				currentNode.Right = newNode
+			} else {
+				recurInsert(currentNode.Right, newNode)
+			}
+		}
+
+	}
+
 	if t.Root == nil {
 		t.Root = node // initial node
 	} else {
-		insert(t.Root, node)
-	}
-}
-
-// insert recursively traverses the tree to insert a new node
-func insert(currentNode, newNode *Node) {
-	if currentNode.Value == newNode.Value {
-		fmt.Println("Node already exists")
-		return
-	}
-
-	if newNode.Value < currentNode.Value {
-		if currentNode.Left == nil {
-			currentNode.Left = newNode
-		} else {
-			insert(currentNode.Left, newNode)
-		}
-	} else {
-		if currentNode.Right == nil {
-			currentNode.Right = newNode
-		} else {
-			insert(currentNode.Right, newNode)
-		}
+		recurInsert(t.Root, node)
 	}
 }
 
