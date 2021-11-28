@@ -1,6 +1,9 @@
 package tree
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 // Helper to setup a test tree:
 //             5
@@ -22,7 +25,7 @@ func setupTree() *BST {
 
 func TestMaxDepth(t *testing.T) {
 	bst := setupTree()
-	got := MaxDepth(bst.root)
+	got := MaxDepth(bst.Root)
 	want := 3
 	if got != want {
 		t.Errorf("Incorrect max depth, got: %v, want %v", got, want)
@@ -65,5 +68,32 @@ func TestValueExists(t *testing.T) {
 				t.Errorf("Incorrect value exists, got: %v, want %v", got, test.want)
 			}
 		})
+	}
+}
+
+func TestInOrderTraversal(t *testing.T) {
+	bst := setupTree()
+	got := bst.InOrderTraversal()
+	want := []int{2, 3, 4, 5, 6, 7, 10}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}
+
+func TestPreOrderTraversal(t *testing.T) {
+	bst := setupTree()
+	got := bst.PreOrderTraversal()
+	want := []int{5, 3, 2, 4, 7, 6, 10}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}
+
+func TestPostOrderTraversal(t *testing.T) {
+	bst := setupTree()
+	got := bst.PostOrderTraversal()
+	want := []int{2, 4, 3, 6, 10, 7, 5}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, want %v", got, want)
 	}
 }

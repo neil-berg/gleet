@@ -14,17 +14,17 @@ type Node struct {
 
 // BST is the binary search tree
 type BST struct {
-	root *Node
+	Root *Node
 }
 
 // Insert inserts a new element with Value v in the tree
 func (t *BST) Insert(v int) {
 	node := &Node{Value: v}
 
-	if t.root == nil {
-		t.root = node // initial node
+	if t.Root == nil {
+		t.Root = node // initial node
 	} else {
-		insert(t.root, node)
+		insert(t.Root, node)
 	}
 }
 
@@ -50,7 +50,7 @@ func insert(currentNode, newNode *Node) {
 	}
 }
 
-// MaxDepth is the number of nodes along the longest path from the root node to
+// MaxDepth is the number of nodes along the longest path from the Root node to
 // the farthest leaf node.
 //             5
 //           /   \
@@ -75,11 +75,11 @@ func MaxDepth(n *Node) int {
 
 // MaxValue returns the max value in the tree
 func (t *BST) MaxValue() (int, error) {
-	if t.root == nil {
+	if t.Root == nil {
 		return 0, errors.New("Empty tree")
 	}
 
-	curr := t.root
+	curr := t.Root
 	for curr.Right != nil {
 		curr = curr.Right
 	}
@@ -88,11 +88,11 @@ func (t *BST) MaxValue() (int, error) {
 
 // MinValue returns the min value in the tree
 func (t *BST) MinValue() (int, error) {
-	if t.root == nil {
+	if t.Root == nil {
 		return 0, errors.New("empty tree")
 	}
 
-	curr := t.root
+	curr := t.Root
 	for curr.Left != nil {
 		curr = curr.Left
 	}
@@ -101,10 +101,10 @@ func (t *BST) MinValue() (int, error) {
 
 // ValueExists checks whether a value exists in the tree
 func (t *BST) ValueExists(v int) bool {
-	if t.root == nil {
+	if t.Root == nil {
 		return false
 	}
-	return ExistsTraversal(t.root, v)
+	return ExistsTraversal(t.Root, v)
 }
 
 // ExistsTraversal is an internal recursion to traversal search
@@ -122,7 +122,58 @@ func ExistsTraversal(n *Node, v int) bool {
 	return true
 }
 
+// InOrderTraversal traverses the tree in-order (left, node, right)
+func (t *BST) InOrderTraversal() []int {
+	var values []int
+	var recurInOrder func(n *Node)
+
+	recurInOrder = func(n *Node) {
+		if n != nil {
+			recurInOrder(n.Left)
+			values = append(values, n.Value)
+			recurInOrder(n.Right)
+		}
+	}
+
+	recurInOrder(t.Root)
+	return values
+}
+
+// PreOrderTraversal traverses a tree pre-order (node, left, right)
+func (t *BST) PreOrderTraversal() []int {
+	var values []int
+	var recurPreOrder func(n *Node)
+
+	recurPreOrder = func(n *Node) {
+		if n != nil {
+			values = append(values, n.Value)
+			recurPreOrder(n.Left)
+			recurPreOrder(n.Right)
+		}
+	}
+
+	recurPreOrder(t.Root)
+	return values
+}
+
+// PostOrderTraversal traverses the tree in post-order (left, right, node)
+func (t *BST) PostOrderTraversal() []int {
+	var values []int
+	var recurPostOrder func(n *Node)
+
+	recurPostOrder = func(n *Node) {
+		if n != nil {
+			recurPostOrder(n.Left)
+			recurPostOrder(n.Right)
+			values = append(values, n.Value)
+		}
+	}
+
+	recurPostOrder(t.Root)
+	return values
+}
+
 // Print displays the tree
 func (t *BST) Print() {
-	fmt.Println("root:", t.root.Value)
+	fmt.Println("Root:", t.Root.Value)
 }
