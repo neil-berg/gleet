@@ -101,27 +101,31 @@ func (t *BST) MinValue() (int, error) {
 	return curr.Value, nil
 }
 
-// ValueExists checks whether a value exists in the tree
+// ValueExists checks whether value v exists in the tree
 func (t *BST) ValueExists(v int) bool {
 	if t.Root == nil {
 		return false
 	}
-	return ExistsTraversal(t.Root, v)
-}
 
-// ExistsTraversal is an internal recursion to traversal search
-func ExistsTraversal(n *Node, v int) bool {
-	if n == nil {
-		return false
+	var recurExists func(n *Node, v int) bool
+
+	recurExists = func(n *Node, v int) bool {
+		if n == nil {
+			return false
+		}
+
+		if v < n.Value {
+			return recurExists(n.Left, v)
+		}
+		if v > n.Value {
+			return recurExists(n.Right, v)
+		}
+		// Neither greater or less than means this node's value is the target value
+		return true
+
 	}
 
-	if v < n.Value {
-		return ExistsTraversal(n.Left, v)
-	}
-	if v > n.Value {
-		return ExistsTraversal(n.Right, v)
-	}
-	return true
+	return recurExists(t.Root, v)
 }
 
 // InOrderTraversal traverses the tree in-order (left, node, right)

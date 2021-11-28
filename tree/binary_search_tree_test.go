@@ -61,7 +61,7 @@ func TestValueExists(t *testing.T) {
 		t.Run(title, func(t *testing.T) {
 			got := bst.ValueExists(test.v)
 			if got != test.want {
-				t.Errorf("Incorrect value exists, got: %v, want %v", got, test.want)
+				t.Errorf("Incorrect value %v exists, got: %v, want %v", test.v, got, test.want)
 			}
 		})
 	}
