@@ -1,4 +1,4 @@
-package datastructures
+package array
 
 import (
 	"testing"
