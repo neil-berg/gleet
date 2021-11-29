@@ -93,3 +93,12 @@ func TestPostOrderTraversal(t *testing.T) {
 		t.Errorf("got %v, want %v", got, want)
 	}
 }
+
+func TestBreadthFirstTraversal(t *testing.T) {
+	bst := setupTree()
+	got := bst.BreadthFirstTraversal()
+	want := []int{5, 3, 7, 2, 4, 6, 10}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}

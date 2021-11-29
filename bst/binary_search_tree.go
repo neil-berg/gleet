@@ -179,6 +179,34 @@ func (t *BST) PostOrderTraversal() []int {
 	return values
 }
 
+// BreadthFirstTraversal traverses the tree level-wise
+func (t *BST) BreadthFirstTraversal() []int {
+	// Temp queue as we traverse various nodes
+	var queue []*Node
+	// Values are the resulting nodes in the BFS sequence
+	var values []int
+
+	if t.Root == nil {
+		return []int{}
+	}
+
+	queue = append(queue, t.Root)
+	for len(queue) > 0 {
+		// Dequeue and store initial node's value, then enqueue its children
+		curr := queue[0]
+		queue = queue[1:]
+		values = append(values, curr.Value)
+		if curr.Left != nil {
+			queue = append(queue, curr.Left)
+		}
+		if curr.Right != nil {
+			queue = append(queue, curr.Right)
+		}
+	}
+
+	return values
+}
+
 // Print displays the tree
 func (t *BST) Print() {
 	fmt.Println("Root:", t.Root.Value)
