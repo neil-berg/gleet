@@ -54,6 +54,22 @@ func (h *Heap) CreateMaxHeap() {
 	}
 }
 
+// MaxInsert inserts a node with value v into the max-heap
+func (h *Heap) MaxInsert(v int) {
+	h.arr = append(h.arr, v)
+	h.CreateMaxHeap()
+}
+
+// MaxDelete deletes the first element in the heap and down max heapifies
+func (h *Heap) MaxDelete() {
+	// Pop initial element and shift last element to the front
+	h.arr = append([]int{h.arr[len(h.arr)-1]}, h.arr[1:len(h.arr)-1]...)
+	// Down heapify, root to last parent node
+	for i := 0; i < len(h.arr)/2-1; i++ {
+		h.MaxHeapify(i)
+	}
+}
+
 // MinHeapify converts a 0-based array into a min-heap
 func (h *Heap) MinHeapify(i int) {
 	rightChildIdx := h.RightChildIdx(i)
@@ -77,6 +93,20 @@ func (h *Heap) MinHeapify(i int) {
 // index (i.e. the first parent node index) and turns it into a min-heap.
 func (h *Heap) CreateMinHeap() {
 	for i := len(h.arr)/2 - 1; i >= 0; i-- {
+		h.MinHeapify(i)
+	}
+}
+
+// MinInsert inserts a node with value v into the min-heap
+func (h *Heap) MinInsert(v int) {
+	h.arr = append(h.arr, v)
+	h.CreateMinHeap()
+}
+
+// MinDelete removes the root node and down min-heapifies
+func (h *Heap) MinDelete() {
+	h.arr = append([]int{h.arr[len(h.arr)-1]}, h.arr[1:len(h.arr)-1]...)
+	for i := 0; i <= len(h.arr)/2-1; i++ {
 		h.MinHeapify(i)
 	}
 }
