@@ -117,18 +117,18 @@ func TestMaxDescSort(t *testing.T) {
 	}
 }
 
-func TestMinAscSort(t *testing.T) {
+func TestMinSortAsc(t *testing.T) {
 	heap := &Heap{arr: []int{12, 6, 8, 3, 9, 11}}
-	got := heap.MinAscSort()
+	got := heap.MinSortAsc()
 	want := []int{3, 6, 8, 9, 11, 12}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got %v, want %v", got, want)
 	}
 }
 
-func TestMinDescSort(t *testing.T) {
+func TestMinSortDesc(t *testing.T) {
 	heap := &Heap{arr: []int{12, 6, 8, 3, 9, 11}}
-	got := heap.MinDescSort()
+	got := heap.MinSortDesc()
 	want := []int{12, 11, 9, 8, 6, 3}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got %v, want %v", got, want)
