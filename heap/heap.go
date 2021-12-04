@@ -68,9 +68,37 @@ func (h *Heap) MaxInsert(v int) {
 
 // MaxDelete deletes the first element in the heap and down max heapifies
 func (h *Heap) MaxDelete() {
-	// Pop initial element and shift last element to the front
-	h.arr = append([]int{h.arr[len(h.arr)-1]}, h.arr[1:len(h.arr)-1]...)
-	h.MaxDownHeapify()
+	if len(h.arr) == 1 {
+		h.arr = []int{}
+	} else {
+		// Pop initial element and shift last element to the front
+		h.arr = append([]int{h.arr[len(h.arr)-1]}, h.arr[1:len(h.arr)-1]...)
+		h.MaxDownHeapify()
+	}
+}
+
+// MaxSortAsc returns an ascending sorted array from a max heap
+func (h *Heap) MaxSortAsc() []int {
+	h.MaxUpHeapify()
+
+	sortedAsc := []int{}
+	for len(h.arr) > 0 {
+		sortedAsc = append([]int{h.arr[0]}, sortedAsc...)
+		h.MaxDelete()
+	}
+	return sortedAsc
+}
+
+// MaxSortDesc returns a descending sorted array from a max heap
+func (h *Heap) MaxSortDesc() []int {
+	h.MaxUpHeapify()
+
+	sortedDesc := []int{}
+	for len(h.arr) > 0 {
+		sortedDesc = append(sortedDesc, h.arr[0])
+		h.MaxDelete()
+	}
+	return sortedDesc
 }
 
 // MinHeapify converts a 0-based array into a min-heap
@@ -114,6 +142,35 @@ func (h *Heap) MinInsert(v int) {
 
 // MinDelete removes the root node and down min-heapifies
 func (h *Heap) MinDelete() {
-	h.arr = append([]int{h.arr[len(h.arr)-1]}, h.arr[1:len(h.arr)-1]...)
-	h.MinDownHeapify()
+	if len(h.arr) == 1 {
+		h.arr = []int{}
+	} else {
+		h.arr = append([]int{h.arr[len(h.arr)-1]}, h.arr[1:len(h.arr)-1]...)
+		h.MinDownHeapify()
+	}
+}
+
+// MinAscSort sorts a min-heap in ascending order
+func (h *Heap) MinAscSort() []int {
+	h.MinUpHeapify()
+
+	sortedAsc := []int{}
+	for len(h.arr) > 0 {
+		sortedAsc = append(sortedAsc, h.arr[0])
+		h.MinDelete()
+	}
+	return sortedAsc
+}
+
+// MinDescSort sorts a min-heap in descending order
+func (h *Heap) MinDescSort() []int {
+	h.MinUpHeapify()
+
+	sortedDesc := []int{}
+	for len(h.arr) > 0 {
+		sortedDesc = append([]int{h.arr[0]}, sortedDesc...)
+		h.MinDelete()
+	}
+
+	return sortedDesc
 }

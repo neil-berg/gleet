@@ -98,3 +98,39 @@ func TestMinDelete(t *testing.T) {
 		t.Errorf("got %v, want %v", got, want)
 	}
 }
+
+func TestMaxAscSort(t *testing.T) {
+	heap := &Heap{arr: []int{20, 15, 12, 14, 3, 8, 10}}
+	got := heap.MaxSortAsc()
+	want := []int{3, 8, 10, 12, 14, 15, 20}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}
+
+func TestMaxDescSort(t *testing.T) {
+	heap := &Heap{arr: []int{20, 15, 12, 14, 3, 8, 10}}
+	got := heap.MaxSortDesc()
+	want := []int{20, 15, 14, 12, 10, 8, 3}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}
+
+func TestMinAscSort(t *testing.T) {
+	heap := &Heap{arr: []int{12, 6, 8, 3, 9, 11}}
+	got := heap.MinAscSort()
+	want := []int{3, 6, 8, 9, 11, 12}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}
+
+func TestMinDescSort(t *testing.T) {
+	heap := &Heap{arr: []int{12, 6, 8, 3, 9, 11}}
+	got := heap.MinDescSort()
+	want := []int{12, 11, 9, 8, 6, 3}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}
