@@ -1,6 +1,9 @@
 package hash
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 // NodeData is the data of a linked list node
 type NodeData struct {
@@ -65,6 +68,22 @@ func (ll LinkedList) Remove(node *Node) LinkedList {
 	return ll
 }
 
+// Find walks the list and returns the node if found, else an error
+func (ll LinkedList) Find(node *Node) (*Node, error) {
+	if ll.Head == nil {
+		return nil, errors.New("Not found")
+	}
+
+	curr := ll.Head
+	for curr != nil {
+		if curr.Data.Value == node.Data.Value && curr.Data.Code == node.Data.Code {
+			return node, nil
+		}
+		curr = curr.Next
+	}
+	return nil, errors.New("Not found")
+}
+
 // GetHashCodeAndIndex takes a string and returns its hash code and index in the table
 func (ht *Table) GetHashCodeAndIndex(s string) (int, int) {
 	code := 0
@@ -97,7 +116,11 @@ func (ht *Table) Insert(s string) {
 
 	loadFactor := float32(ht.NumEntries / ht.NumBuckets)
 	if loadFactor > 0.7 {
-		ht.Resize()
+		fmt.Println("resizing....")
+		resized := Resize(ht)
+		ht.Map = resized.Map
+		ht.NumEntries = resized.NumEntries
+		ht.NumBuckets = resized.NumBuckets
 	}
 }
 
@@ -112,16 +135,36 @@ func (ht *Table) Delete(s string) {
 	ht.NumEntries--
 }
 
-// Resize resizes the table
-func (ht *Table) Resize() {
-	// TOOD - resize logic
-	// 1. Create new table with 2* numBuckets
-	// 2. For each item in existing table, remove, and then re-insert into new table
-	// fmt.Println("resizing table!")
+// Get searches for a node in the table
+func (ht *Table) Get(s string) (*Node, error) {
+	code, index := ht.GetHashCodeAndIndex(s)
+	node := &Node{
+		Data: &NodeData{Code: code, Value: s},
+	}
+	return ht.Map[index].Find(node)
+}
+
+// Resize creates a new table with twice the number of buckets and shifts
+// existing entries into the new table
+func Resize(ht *Table) *Table {
+	resized := NewTable(ht.NumBuckets * 2)
+
+	for i := 0; i < ht.NumBuckets; i++ {
+		ll := ht.Map[i]
+		curr := ll.Head
+		for curr != nil {
+			ht.Delete(curr.Data.Value)
+			resized.Insert(curr.Data.Value)
+			curr = curr.Next
+		}
+	}
+
+	return resized
 }
 
 // Display displays the table
 func (ht *Table) Display() {
+	fmt.Println("Buckets:", ht.NumBuckets, "Entries:", ht.NumEntries)
 	for i := 0; i < ht.NumBuckets; i++ {
 		data := []NodeData{}
 
