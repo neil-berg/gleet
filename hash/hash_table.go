@@ -2,9 +2,15 @@ package hash
 
 import "fmt"
 
+// NodeData is the data of a linked list node
+type NodeData struct {
+	Code  int
+	Value string
+}
+
 // Node is element in the linked list of values for a key in the table
 type Node struct {
-	Data []interface{}
+	Data *NodeData
 	Next *Node
 }
 
@@ -36,6 +42,29 @@ func (ll LinkedList) Add(node *Node) LinkedList {
 	return ll
 }
 
+// Remove removes a node from the linked list if it exists
+func (ll LinkedList) Remove(node *Node) LinkedList {
+	if ll.Head == nil {
+		return ll
+	}
+
+	if ll.Head.Data.Value == node.Data.Value {
+		ll.Head = nil
+		return ll
+	}
+
+	curr := ll.Head
+	for curr.Next != nil {
+		if curr.Next.Data.Value == node.Data.Value {
+			curr.Next = curr.Next.Next
+			return ll
+		}
+		curr = curr.Next
+	}
+
+	return ll
+}
+
 // GetHashCodeAndIndex takes a string and returns its hash code and index in the table
 func (ht *Table) GetHashCodeAndIndex(s string) (int, int) {
 	code := 0
@@ -59,7 +88,9 @@ func NewTable(numBuckets int) *Table {
 // Insert insert a new item to the hash table
 func (ht *Table) Insert(s string) {
 	code, index := ht.GetHashCodeAndIndex(s)
-	node := &Node{Data: []interface{}{code, s}}
+	node := &Node{
+		Data: &NodeData{Code: code, Value: s},
+	}
 
 	ht.Map[index] = ht.Map[index].Add(node)
 	ht.NumEntries++
@@ -71,14 +102,15 @@ func (ht *Table) Insert(s string) {
 }
 
 // Delete deletes the item from the hash table
-// func (ht *Table) Delete(s string) {
-// 	code := GetHashCode(s)
-// 	index := code % ht.NumBuckets
-// 	node := &Node{Data: []interface{}{code, s}}
+func (ht *Table) Delete(s string) {
+	code, index := ht.GetHashCodeAndIndex(s)
+	node := &Node{
+		Data: &NodeData{Code: code, Value: s},
+	}
 
-// 	ht.Map[index] = ht.Map[index].Remove(node)
-// 	ht.NumEntries--
-// }
+	ht.Map[index] = ht.Map[index].Remove(node)
+	ht.NumEntries--
+}
 
 // Resize resizes the table
 func (ht *Table) Resize() {
@@ -91,15 +123,15 @@ func (ht *Table) Resize() {
 // Display displays the table
 func (ht *Table) Display() {
 	for i := 0; i < ht.NumBuckets; i++ {
-		values := []interface{}{}
+		data := []NodeData{}
 
 		list := ht.Map[i]
 		curr := list.Head
 		for curr != nil {
-			values = append(values, curr.Data)
+			data = append(data, *curr.Data)
 			curr = curr.Next
 		}
 
-		fmt.Printf("%d: %v \n", i, values)
+		fmt.Printf("%d: %v \n", i, data)
 	}
 }

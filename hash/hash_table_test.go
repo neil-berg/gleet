@@ -12,5 +12,8 @@ func TestInsert(t *testing.T) {
 	ht.Insert("Pete")
 	ht.Insert("Jan")
 	ht.Insert("Bill")
+	ht.Delete("Pam")
+	ht.Delete("Jane")
+	ht.Delete("Ann")
 	ht.Display()
 }
