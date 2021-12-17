@@ -121,3 +121,27 @@ func TestReverse(t *testing.T) {
 		})
 	}
 }
+
+func TestBinarySearch(t *testing.T) {
+	arr := &Array{}
+	startIdx := 0
+	endIdx := 9
+	for i := startIdx; i < endIdx; i++ {
+		arr.Push(i)
+	}
+
+	tests := map[string]struct {
+		v    int
+		want bool
+	}{"exists": {v: 5, want: true},
+		"does not exist": {v: -2, want: false}}
+
+	for title, test := range tests {
+		t.Run(title, func(t *testing.T) {
+			got := arr.BinarySearch(test.v)
+			if got != test.want {
+				t.Errorf("got %v, wnat %v", got, test.want)
+			}
+		})
+	}
+}

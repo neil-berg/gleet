@@ -44,3 +44,21 @@ func (a *Array) Reverse() *Array {
 	}
 	return a
 }
+
+// BinarySearch tries to find value v (an int) in a sorted array
+func (a *Array) BinarySearch(v int) bool {
+	min := 0
+	max := a.len - 1
+
+	for min <= max {
+		mid := min + (max - min/2)
+		if a.items[mid].(int) < v {
+			min = min + 1
+		} else if a.items[mid].(int) > v {
+			max = max - 1
+		} else {
+			return true
+		}
+	}
+	return false
+}
