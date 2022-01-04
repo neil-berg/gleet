@@ -16,31 +16,9 @@ func TestMaxUpHeapify(t *testing.T) {
 	}
 }
 
-func TestMaxDownHeapify(t *testing.T) {
-	heap := &Heap{arr: []int{5, 10, 3, 8, 9}}
-	heap.MaxDownHeapify()
-	got := heap.arr
-	want := []int{10, 9, 3, 8, 5}
-
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("got %v, want %v", got, want)
-	}
-}
-
 func TestMinUpHeapify(t *testing.T) {
 	heap := &Heap{arr: []int{5, 10, 3, 8, 9}}
 	heap.MinUpHeapify()
-	got := heap.arr
-	want := []int{3, 8, 5, 10, 9}
-
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("got %v, want %v", got, want)
-	}
-}
-
-func TestMinDownHeapify(t *testing.T) {
-	heap := &Heap{arr: []int{5, 10, 3, 8, 9}}
-	heap.MinDownHeapify()
 	got := heap.arr
 	want := []int{3, 8, 5, 10, 9}
 

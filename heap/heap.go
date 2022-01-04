@@ -150,7 +150,7 @@ func (h *Heap) MinDelete() {
 	}
 }
 
-// MinAscSort sorts a min-heap in ascending order
+// MinSortAsc sorts a min-heap in ascending order
 func (h *Heap) MinSortAsc() []int {
 	h.MinUpHeapify()
 
@@ -162,7 +162,7 @@ func (h *Heap) MinSortAsc() []int {
 	return sortedAsc
 }
 
-// MinDescSort sorts a min-heap in descending order
+// MinSortDesc sorts a min-heap in descending order
 func (h *Heap) MinSortDesc() []int {
 	h.MinUpHeapify()
 
