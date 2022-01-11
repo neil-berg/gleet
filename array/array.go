@@ -51,7 +51,7 @@ func (a *Array) BinarySearch(v int) bool {
 	max := a.len - 1
 
 	for min <= max {
-		mid := min + (max - min/2)
+		mid := (min + max) / 2
 		if a.items[mid].(int) < v {
 			min = min + 1
 		} else if a.items[mid].(int) > v {
