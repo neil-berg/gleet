@@ -11,11 +11,14 @@ func TestFib(t *testing.T) {
 	}{
 		{n: 5, want: 5},
 		{n: 6, want: 8},
+		{n: 50, want: 12586269025},
 	}
+
+	cache := make(map[int]int)
 
 	for _, tt := range tests {
 		t.Run("", func(t *testing.T) {
-			got := Fib(tt.n)
+			got := Fib(tt.n, cache)
 			if got != tt.want {
 				t.Errorf("got %v, want %v", got, tt.want)
 			}
