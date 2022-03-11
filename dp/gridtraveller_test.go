@@ -13,10 +13,9 @@ func TestGridTraveller(t *testing.T) {
 		{m: 18, n: 18, want: 2333606220},
 	}
 
-	cache := make(map[string]int)
-
 	for _, tt := range tests {
 		t.Run("", func(t *testing.T) {
+			cache := make(map[string]int)
 			got := GridTraveller(tt.m, tt.n, cache)
 			if got != tt.want {
 				t.Errorf("got %v, want %v", got, tt.want)
