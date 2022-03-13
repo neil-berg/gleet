@@ -14,7 +14,7 @@ func TestCanConstruct(t *testing.T) {
 		{target: "homebrew", words: []string{"home", "bre", "w"}, want: true},
 		{target: "test", words: []string{"tes", "s", "st"}, want: false},
 		{target: "enterapotentpot", words: []string{"a", "p", "ent", "enter", "ot", "o", "t"}, want: true},
-		{target: "eeeeeeeeef", words: []string{"e", "f"}, want: true},
+		{target: "hellohello", words: []string{"he", "llo", "h", "ello", "hello"}, want: true},
 	}
 
 	for _, tt := range tests {
