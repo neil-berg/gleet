@@ -21,7 +21,7 @@ func CanSum(arr []int, target int, cache CanSumCache) bool {
 	for _, v := range arr {
 		remainder := target - v
 		if CanSum(arr, remainder, cache) {
-			cache[remainder] = true
+			cache[target] = true
 			return true
 		}
 	}

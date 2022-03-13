@@ -6,6 +6,7 @@ import (
 )
 
 func TestHowSum(t *testing.T) {
-	result := HowSum(5, []int{2, 3, 4})
+	cache := make(map[int][]int)
+	result := HowSum(38, []int{3, 4, 8}, cache)
 	fmt.Println(result)
 }
