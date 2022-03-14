@@ -18,8 +18,12 @@ func TestFib(t *testing.T) {
 		t.Run("", func(t *testing.T) {
 			cache := make(map[int]int)
 			got := Fib(tt.n, cache)
+			gotTab := FibTabulation(tt.n)
 			if got != tt.want {
 				t.Errorf("got %v, want %v", got, tt.want)
+			}
+			if gotTab != tt.want {
+				t.Errorf("got %v, want %v", gotTab, tt.want)
 			}
 		})
 	}
