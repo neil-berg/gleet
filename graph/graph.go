@@ -1,66 +1,73 @@
 package graph
 
-// AdjacencyList is an adjacency list
-type AdjacencyList map[int][]int
-
-// Graph is a graph
+// Graph is a the structure of graph
 type Graph struct {
-	AdjList AdjacencyList
+	// Adjacency is the graph's adjacency map
+	Adjacency map[int][]int
+	// Visited is the graph's visited map
+	Visited map[int]bool
+	// Directed is whether the graph is directed or not
+	Directed bool
 }
 
-// DFS is a depth-first traversal
-func (g *Graph) DFS(initialNode int) []int {
-	stack := []int{initialNode}
+// TraverseDepthFirst walks a graph depth-first starting at the src node
+func (g *Graph) TraverseDepthFirst(src int) []int {
+	stack := []int{src}
 
-	result := []int{}
+	values := []int{}
 
 	for len(stack) > 0 {
 		current := stack[len(stack)-1]
-		result = append(result, current)
+		g.Visited[current] = true
+		values = append(values, current)
 		stack = stack[:len(stack)-1]
 
-		for _, neighbor := range g.AdjList[current] {
-			stack = append(stack, neighbor)
+		for _, neighbor := range g.Adjacency[current] {
+			if !g.Visited[neighbor] {
+				stack = append(stack, neighbor)
+			}
 		}
 	}
 
-	return result
+	return values
 }
 
-// DFSRecur uses recursion to traverse depth-wise
-func (g *Graph) DFSRecur(initialNode int) []int {
+// TraverseDepthFirstRecur walks a graph depth-first recursively starting at the src node
+func (g *Graph) TraverseDepthFirstRecur(src int) []int {
 	var values []int
 
 	var recur func(node int)
 	recur = func(node int) {
+		g.Visited[node] = true
 		values = append(values, node)
-		neighbors := g.AdjList[node]
+		neighbors := g.Adjacency[node]
 		for _, neighbor := range neighbors {
-			recur(neighbor)
+			if !g.Visited[neighbor] {
+				recur(neighbor)
+			}
 		}
 	}
 
-	recur(initialNode)
+	recur(src)
 	return values
 }
 
-// BFS traverses a graph breadth-first
-func (g *Graph) BFS(initialNode int) []int {
-	visited := make(map[int]bool)
+// TraverseBreadth traverses a graph breadth-first
+func (g *Graph) TraverseBreadth(src int) []int {
 	var queue []int
 	var values []int
 
-	visited[initialNode] = true
-	queue = append(queue, initialNode)
+	g.Visited[src] = true
+	queue = append(queue, src)
 
 	for len(queue) > 0 {
 		current := queue[0]
 		queue = queue[1:]
 		values = append(values, current)
-		for _, node := range g.AdjList[current] {
-			if !visited[node] {
+		for _, node := range g.Adjacency[current] {
+			if !g.Visited[node] {
 				queue = append(queue, node)
-				visited[node] = true
+				g.Visited[node] = true
 			}
 		}
 	}
@@ -74,22 +81,21 @@ func (g *Graph) HasPathBFS(src, dest int) bool {
 		return true
 	}
 
-	visited := make(map[int]bool)
 	var queue []int
 
-	visited[src] = true
+	g.Visited[src] = true
 	queue = append(queue, src)
 
 	for len(queue) > 0 {
 		curr := queue[0]
 		queue = queue[1:]
-		for _, neighbor := range g.AdjList[curr] {
+		for _, neighbor := range g.Adjacency[curr] {
 			if neighbor == dest {
 				return true
 			}
-			if !visited[neighbor] {
+			if !g.Visited[neighbor] {
 				queue = append(queue, neighbor)
-				visited[neighbor] = true
+				g.Visited[neighbor] = true
 			}
 		}
 	}
@@ -98,13 +104,19 @@ func (g *Graph) HasPathBFS(src, dest int) bool {
 }
 
 // HasPathDFS determines if a path exists via depth-first search
-func (g *Graph) HasPathDFS(src, dest int) bool {
-	if src == dest {
+func (g *Graph) HasPathDFS(src, dst int) bool {
+	if src == dst {
 		return true
 	}
 
-	for _, neighbor := range g.AdjList[src] {
-		if g.HasPathDFS(neighbor, dest) {
+	if g.Visited[src] {
+		return false
+	}
+
+	g.Visited[src] = true
+
+	for _, neighbor := range g.Adjacency[src] {
+		if g.HasPathDFS(neighbor, dst) {
 			return true
 		}
 	}
