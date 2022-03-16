@@ -70,6 +70,10 @@ func (g *Graph) BFS(initialNode int) []int {
 
 // HasPathBFS determines if a path exists between the src and dest nodes
 func (g *Graph) HasPathBFS(src, dest int) bool {
+	if src == dest {
+		return true
+	}
+
 	visited := make(map[int]bool)
 	var queue []int
 
@@ -87,6 +91,21 @@ func (g *Graph) HasPathBFS(src, dest int) bool {
 				queue = append(queue, neighbor)
 				visited[neighbor] = true
 			}
+		}
+	}
+
+	return false
+}
+
+// HasPathDFS determines if a path exists via depth-first search
+func (g *Graph) HasPathDFS(src, dest int) bool {
+	if src == dest {
+		return true
+	}
+
+	for _, neighbor := range g.AdjList[src] {
+		if g.HasPathDFS(neighbor, dest) {
+			return true
 		}
 	}
 

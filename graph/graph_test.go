@@ -1,28 +1,10 @@
 package graph
 
 import (
-	"fmt"
 	"testing"
 )
 
-// func TestDepthFirstTraversal(t *testing.T) {
-// 	graph := &Graph{
-// 		AdjList: AdjacencyList{
-// 			1: []int{2, 3},
-// 			2: []int{},
-// 			3: []int{4},
-// 			4: []int{5},
-// 			5: []int{6, 7},
-// 			6: []int{},
-// 			7: []int{},
-// 		},
-// 	}
-
-// 	// got := graph.DepthFirstTraversalRecur(1)
-// 	fmt.Println(graph.BFS(1))
-// 	// fmt.Println(got2)
-// }
-func TestHasPathBFS(t *testing.T) {
+func TestHasPath(t *testing.T) {
 	graph := &Graph{
 		AdjList: AdjacencyList{
 			1: []int{2, 4},
@@ -34,7 +16,21 @@ func TestHasPathBFS(t *testing.T) {
 		},
 	}
 
-	// got := graph.DepthFirstTraversalRecur(1)
-	fmt.Println(graph.HasPathBFS(2, 5))
-	// fmt.Println(got2)
+	tests := []struct {
+		src, dest int
+		want      bool
+	}{
+		{src: 1, dest: 5, want: true},
+		{src: 2, dest: 5, want: false},
+	}
+
+	for _, tt := range tests {
+		t.Run("", func(t *testing.T) {
+			gotDFS := graph.HasPathDFS(tt.src, tt.dest)
+			gotBFS := graph.HasPathBFS(tt.src, tt.dest)
+			if gotDFS != tt.want || gotBFS != tt.want {
+				t.Errorf("got %v, want %v", gotDFS, tt.want)
+			}
+		})
+	}
 }
