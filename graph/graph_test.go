@@ -5,19 +5,33 @@ import (
 	"testing"
 )
 
+func newGraph() *Graph {
+	g := &Graph{}
+	g.Init()
+	return g
+}
+
+func TestCreateAdjacency(t *testing.T) {
+	g := newGraph()
+	edges := [][]int{
+		[]int{1, 2},
+		[]int{1, 3},
+		[]int{3, 4},
+	}
+	g.CreateAdjacency(edges)
+	fmt.Println(g.Adjacency)
+}
+
 func TestTraverse(t *testing.T) {
-	g := &Graph{
-		Adjacency: map[int][]int{
-			1: []int{2, 3},
-			2: []int{1, 3},
-			3: []int{1, 4, 5},
-			4: []int{4},
-			5: []int{3, 6},
-			6: []int{5, 7},
-			7: []int{6},
-		},
-		Visited:  map[int]bool{},
-		Directed: false,
+	g := newGraph()
+	g.Adjacency = map[int][]int{
+		1: []int{2, 3},
+		2: []int{1, 3},
+		3: []int{1, 4, 5},
+		4: []int{4},
+		5: []int{3, 6},
+		6: []int{5, 7},
+		7: []int{6},
 	}
 
 	// values := g.TraverseDepthFirstRecur(1)
@@ -29,18 +43,15 @@ func TestTraverse(t *testing.T) {
 }
 
 func TestHasPath(t *testing.T) {
-	g := &Graph{
-		Adjacency: map[int][]int{
-			1: []int{2, 3},
-			2: []int{1, 3},
-			3: []int{1, 4, 5},
-			4: []int{4},
-			5: []int{3},
-			6: []int{7},
-			7: []int{6},
-		},
-		Visited:  map[int]bool{},
-		Directed: false,
+	g := newGraph()
+	g.Adjacency = map[int][]int{
+		1: []int{2, 3},
+		2: []int{1, 3},
+		3: []int{1, 4, 5},
+		4: []int{4},
+		5: []int{3},
+		6: []int{7},
+		7: []int{6},
 	}
 
 	tests := []struct {

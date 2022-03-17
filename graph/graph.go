@@ -10,6 +10,22 @@ type Graph struct {
 	Directed bool
 }
 
+// Init initializes a new graph
+func (g *Graph) Init() *Graph {
+	g.Adjacency = make(map[int][]int)
+	g.Visited = make(map[int]bool)
+	return g
+}
+
+// CreateAdjacency converts an array of edges into an adjacency list
+func (g *Graph) CreateAdjacency(edges [][]int) {
+	for _, edge := range edges {
+		a, b := edge[0], edge[1]
+		g.Adjacency[a] = append(g.Adjacency[a], b)
+		g.Adjacency[b] = append(g.Adjacency[b], a)
+	}
+}
+
 // TraverseDepthFirst walks a graph depth-first starting at the src node
 func (g *Graph) TraverseDepthFirst(src int) []int {
 	stack := []int{src}
