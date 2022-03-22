@@ -139,3 +139,30 @@ func (g *Graph) HasPathDFS(src, dst int) bool {
 
 	return false
 }
+
+// ConnectedComponents returns the number of connected segments in a graph
+func (g *Graph) ConnectedComponents() int {
+	var count int
+
+	var explore func(node int) bool
+	explore = func(node int) bool {
+		if g.Visited[node] {
+			return false
+		}
+
+		g.Visited[node] = true
+		for _, neighbor := range g.Adjacency[node] {
+			explore(neighbor)
+		}
+
+		return true
+	}
+
+	for node := range g.Adjacency {
+		if explore(node) {
+			count++
+		}
+	}
+
+	return count
+}

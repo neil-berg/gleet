@@ -72,3 +72,21 @@ func TestHasPath(t *testing.T) {
 		})
 	}
 }
+
+func TestConnectedComponents(t *testing.T) {
+	g := newGraph()
+	edges := [][]int{
+		[]int{1, 2},
+		[]int{3, 4},
+		[]int{3, 5},
+		[]int{3, 6},
+		[]int{3, 7},
+		[]int{8, 9},
+	}
+	g.CreateAdjacency(edges)
+	got := g.ConnectedComponents()
+	want := 3
+	if got != want {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}
