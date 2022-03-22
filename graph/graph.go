@@ -166,3 +166,36 @@ func (g *Graph) ConnectedComponents() int {
 
 	return count
 }
+
+// LargestComponent returns the largest segment in a graph
+func (g *Graph) LargestComponent() int {
+	// localCount is the count of each segment of the graph
+	localCount := 0
+	// explore traverses segments in a graph
+	var explore func(node int) bool
+	explore = func(node int) bool {
+		if g.Visited[node] {
+			return false
+		}
+
+		g.Visited[node] = true
+		localCount++
+		for _, neighbor := range g.Adjacency[node] {
+			explore(neighbor)
+		}
+
+		return true
+	}
+
+	max := 0
+	for node := range g.Adjacency {
+		if explore(node) {
+			if localCount > max {
+				max = localCount
+			}
+			localCount = 0
+		}
+	}
+
+	return max
+}

@@ -90,3 +90,22 @@ func TestConnectedComponents(t *testing.T) {
 		t.Errorf("got %v, want %v", got, want)
 	}
 }
+
+func TestLargestComponent(t *testing.T) {
+	g := newGraph()
+	edges := [][]int{
+		[]int{1, 2},
+		[]int{3, 4},
+		[]int{3, 5},
+		[]int{3, 6},
+		[]int{3, 7},
+		[]int{8, 9},
+	}
+	g.CreateAdjacency(edges)
+	got := g.LargestComponent()
+	fmt.Println(got)
+	want := 5
+	if got != want {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}
