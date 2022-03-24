@@ -103,7 +103,6 @@ func TestLargestComponent(t *testing.T) {
 	}
 	g.CreateAdjacency(edges)
 	got := g.LargestComponent()
-	fmt.Println(got)
 	want := 5
 	if got != want {
 		t.Errorf("got %v, want %v", got, want)
